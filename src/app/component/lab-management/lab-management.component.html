@@ -1,0 +1,133 @@
+<nav class="navbar navbar-light bg-primary">
+    <div class="container">
+        <h1 style="color: aliceblue;">Lab Management Details</h1>
+        <div class="d-flex">
+            <button (click)="clickAddEmployee()" type="button" class="btn btn-success" data-bs-toggle="modal"
+                data-bs-target="#exampleModal">Add Employee</button>
+        </div>
+    </div>
+  </nav>
+  <div class="shadow p-4 mb-2">
+    <input type="text" class="form-control" placeholder="Search" [(ngModel)]="searchText">
+  </div>
+  
+  <div class="p-3">
+    <select (change)="onTableSizeChange($event)">
+        <option *ngFor="let size of tableSizes">
+            {{size}}
+        </option>
+    </select>
+  </div>
+  
+  <table class="table table-bordered table-striped table-responsive">
+    <thead>
+        <tr>
+            <th scope="col">Employee Id</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Email Id</th>
+            <th scope="col">Mobile No.</th>
+            <th scope="col">Salary</th>
+            <th scope="col">Image</th>
+            <th scope="col"> Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let row of employeeData | search:searchText  |
+        paginate:{
+        itemsPerPage:tableSize,
+        currentPage:page,
+        totalItems:count
+    } let i = index">
+            <td>{{row.id}}</td>
+            <td>
+                <img src="{{row.image}}" width="60px" height="60px" alt="" />
+            </td>
+            <td>{{row.firstName}}</td>
+            <td>{{row.lastName}}</td>
+            <td>{{row.email}}</td>
+            <td>{{row.mobile}}</td>
+            <td>{{row.salary}}</td>
+            
+            <td>
+                <div class="btn-group mx-1" role="group">
+                    <button type="button" (click)="onDetails(row)" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                        class="btn btn-sm btn-info">Details</button>
+                    <button type="button" (click)="onEdit(row)" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                        class="btn btn-sm btn-warning">Edit</button>
+                    <button (click)="deleteEmployee(row)" class="btn btn-sm btn-danger"><i
+                            class="fa fa-remove"></i>Delete</button>
+                </div>
+            </td>
+        </tr>
+  
+    </tbody>
+  </table>
+  <div>
+    <pagination-controls
+    previousLabel="Prev"
+    nextLabel="Next"
+    (pageChange)="onTableDataChange($event)"
+    >
+  
+    </pagination-controls>
+  </div>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Employee Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+  
+                <form [formGroup]="formValue">
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">First Name</label>
+                        <input formControlName="firstName" type="text" class="form-control" id="firstName"
+                            aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Last Name</label>
+                        <input formControlName="lastName" type="text" class="form-control" id="lastName">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Email Id</label>
+                        <input formControlName="email" type="email" class="form-control" id="email">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Mobile Number</label>
+                        <input formControlName="mobile" type="text" class="form-control" id="mobile">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Salary</label>
+                        <input formControlName="salary" type="text" class="form-control" id="salary">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Image</label>
+                        <input formControlName="image" type="file" (change)="onChange($event)" class="form-control" />
+                    </div>
+  
+  
+  
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="cancel" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button (click)="postEmployeeDetails()" *ngIf="showAdd" type="button" class="btn btn-primary">Save
+                    Employee</button>
+                <button (click)="updateEmployeeDetails()" *ngIf="showUpdate" type="button"
+                    class="btn btn-primary">Update Employee</button>
+            </div>
+        </div>
+    </div>
+  </div>
+  
+  <!-- <input type="file" (change)="onChange($event)" /> -->
+  
+  <!-- <div *ngIf="myimage">
+  <img [src]="myimage" width="200px" height="200px" alt="" />
+  <textarea rows="30" cols="60" [(ngModel)]="base64code"></textarea>
+  </div> -->

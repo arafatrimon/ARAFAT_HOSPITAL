@@ -1,0 +1,262 @@
+<div>
+    <div class="container bg-primary">
+        <h3 style="color: aliceblue;">Patient Details</h3>
+    </div>
+
+    <div class="contaier shadow my-3 p-3">
+        <!-- <div class="row">
+            <div class="form-group col-sm-6">
+                <label for="patientName">Patient Id</label>
+                <input [(ngModel)]="patient.patientId" type="text" class="form-control">
+            </div>
+            <div class="form-group col-sm-6">
+                <label for="patientName">Date</label>
+                <input [(ngModel)]="patient.date" type="datetime-local" class="form-control">
+            </div>
+        
+        </div> -->
+    </div>
+    <div class="container bg-primary">
+        <h3 style="color: aliceblue;">Test</h3>
+    </div>
+
+
+
+    <div class="container my-3 p-3 shadow">
+        <div class="row">
+            <div class="col-sm-6">
+                <div>
+                    <ng-select [items]="testDetailsData" bindLabel="testName" [(ngModel)]="patient">
+                    </ng-select>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <input type="number" class="form-control" placeholder="price" [(ngModel)]="patient. price">
+            </div>
+            <div class="col-sm-2">
+                <input type="number" class="form-control" placeholder="Referrer Fee" [(ngModel)]="patient. referrerFee">
+            </div>
+            <div class="col-sm-2">
+                <button class="btn btn-success" (click)="addTest()">Add Test</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container bg-primary shadow">
+        <h3 style="color: aliceblue;">Test Details</h3>
+    </div>
+
+    <div class="container  p-3">
+        <div class="row">
+            <div class="col-sm-8 shadow py-3">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Test Name</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Refferer Fee</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let value of values">
+                            <td>{{value.testName}}</td>
+                            <td>{{value.price}}</td>
+                            <td>{{value.referrerFee}}</td>
+                        </tr>
+                    </tbody>
+                    <!-- <tfoot>
+                <tr>
+                    <td class="text-right">Subtotal : </td>
+                    <td class="text-center">{{getSubTotal()}}</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="text-right">Discount : </td>
+                    <td class="text-center">
+                        <input type="number" class="form-control" 
+                        style="border: none;" placeholder="price" 
+                        [(ngModel)]="calculatedValue.discount">
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="text-right">Payable Amount : </td>
+                    <td class="text-right">
+                        {{getPayableAmount().toFixed(2)}}
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="text-right">Paid Amount : </td>
+                    <td class="text-center">
+                        <input type="number" class="form-control" 
+                        style="border: none;" placeholder="price" 
+                        [(ngModel)]="calculatedValue.pay">
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="text-right">Due Amount : </td>
+                    <td class="text-right">
+                        {{(calculatedValue.payableAmount - calculatedValue.pay).toFixed(2)}}
+                    </td>
+                    <td></td>
+                </tr>
+
+            </tfoot> -->
+
+                </table>
+            </div>
+            <div class="col-sm-4 shadow py-3">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div>Subtotal:
+                            <input class="form-control text-center" type="text" value="{{getSubTotal()}}" readonly>
+                            <!-- Subtotal : {{getSubTotal()}} -->
+                        </div>
+
+                    </div>
+                    <div class="col-sm-6">
+                        <div>
+                            Discount :<input type="number" class="form-control text-center" style="border: none;"
+                                placeholder="price" [(ngModel)]="calculatedValue.discount">
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div>
+                            Payable Amount :
+                            <input class="form-control text-center" type="text"
+                                value="{{getPayableAmount().toFixed(2)}}" readonly>
+                            <!-- {{getPayableAmount().toFixed(2)}} -->
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div>
+                            Paid Amount :
+                            <input type="number" class="form-control text-center" style="border: none;"
+                                placeholder="price" [(ngModel)]="calculatedValue.pay">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        Due Amount :
+
+                        <input class="form-control text-center" type="text"
+                            value="{{(calculatedValue.payableAmount - calculatedValue.pay).toFixed(2)}}" readonly>
+                        <!-- {{(calculatedValue.payableAmount - calculatedValue.pay).toFixed(2)}} -->
+                    </div>
+                    <div class="col-sm-6">
+                        <button class="btn btn-success mt-4" (click)="postEmployeeDetails()">Create Bill</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="contaier mt-5">
+    <div> Subtotal: {{subtotal}} </div>
+    <div> Discount: <input type="text"></div>
+    <div> Payable Amount: {{payableAmount}} </div>
+    <div> Pay: {{pay}} </div>
+    <div> Due: {{due}} </div>
+</div> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- <input type="text" class="form-control" placeholder="Search" [(ngModel)]="searchText"> -->
+    <!-- <table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Employee Id</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Email Id</th>
+            <th scope="col">Mobile No.</th>
+            <th scope="col">Salary</th>
+            <th scope="col"> Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let row of employeeData | search:searchText">
+            <td>{{row.id}}</td>
+            <td>{{row.firstName}}</td>
+            <td>{{row.lastName}}</td>
+            <td>{{row.email}}</td>
+            <td>{{row.mobile}}</td>
+            <td>{{row.salary}}</td>
+            <td>
+                <div class="btn-group mx-1" role="group">
+                <button type="button" (click)="onDetails(row)" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                    class="btn btn-sm btn-info">Details</button>
+                <button type="button" (click)="onEdit(row)" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                    class="btn btn-sm btn-warning">Edit</button>
+                <button (click)="deleteEmployee(row)" class="btn btn-sm btn-danger"><i
+                        class="fa fa-remove"></i>Delete</button>
+                        </div>
+            </td>
+        </tr>
+
+    </tbody>
+</table> -->
+
+    <!-- Modal -->
+    <!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Employee Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <form [formGroup]="formValue">
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">First Name</label>
+                        <input formControlName="firstName" type="text" class="form-control" id="firstName"
+                            aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Last Name</label>
+                        <input formControlName="lastName" type="text" class="form-control" id="lastName">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Email Id</label>
+                        <input formControlName="email" type="email" class="form-control" id="email">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Mobile Number</label>
+                        <input formControlName="mobile" type="text" class="form-control" id="mobile">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Salary</label>
+                        <input formControlName="salary" type="text" class="form-control" id="salary">
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="cancel" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button (click)="postEmployeeDetails()" *ngIf="showAdd" type="button" class="btn btn-primary">Save
+                    Employee</button>
+                <button (click)="updateEmployeeDetails()" *ngIf="showUpdate" type="button"
+                    class="btn btn-primary">Update Employee</button>
+            </div>
+        </div>
+    </div>
+</div> -->

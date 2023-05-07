@@ -1,0 +1,29 @@
+<form [formGroup]="formValue">
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Patient Id</label>
+        <input formControlName="patientId"  type="text" class="form-control" id="firstName"
+            aria-describedby="emailHelp">
+    </div>
+    <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Payable Amount</label>
+        <input formControlName="payable"  type="text" class="form-control" id="lastName">
+    </div>
+    <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Paid Amount</label>
+        <input formControlName="paid"  type="text" class="form-control" id="email">
+    </div>
+    <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Due Amount</label>
+        <input formControlName="due"  type="text" class="form-control" id="mobile">
+    </div>
+   
+</form>
+
+
+<button id="cancel" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+<button (click)="postEmployeeDetails()"  type="button" class="btn btn-primary">Save
+    Ambulance</button>
+<!-- <button (click)="updateAmbulanceDetails()" *ngIf="showUpdate" type="button"
+    class="btn btn-primary">Update Ambulance</button>
+</div>
+</div> -->

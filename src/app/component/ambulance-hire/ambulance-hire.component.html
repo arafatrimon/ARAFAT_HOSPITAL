@@ -1,0 +1,203 @@
+<nav class="navbar navbar-light bg-primary">
+    <div class="container">
+        <h3 style="color: aliceblue;">Ambulance  Hire Details</h3>
+        <div class="d-flex">
+            <button (click)="clickAddAmbulanceHire()" type="button" class="btn btn-success" data-bs-toggle="modal"
+                data-bs-target="#exampleModal">Add AmbulanceHire</button>
+        </div>
+    </div>
+</nav>
+<div class="shadow p-4 mb-2">
+    <input type="text" class="form-control" placeholder="Search" [(ngModel)]="searchText">
+</div>
+
+<div class="p-3">
+    <select (change)="onTableSizeChange($event)">
+        <option *ngFor="let size of tableSizes">
+            {{size}}
+        </option>
+    </select>
+</div>
+
+<table class="table table-bordered table-striped table-responsive">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Ambulance Id</th>
+            <th scope="col">Type</th>
+            <th scope="col">Date</th>
+            <th scope="col">Hired By</th>
+            <th scope="col">mobile</th>
+            <th scope="col">Location From</th>
+            <th scope="col">Location To</th>
+            <th scope="col">Status</th>
+            <th scope="col"> Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let row of ambulanceHireData | search:searchText  |
+        paginate:{
+        itemsPerPage:tableSize,
+        currentPage:page,
+        totalItems:count
+    } let i = index">
+            <td>{{row.id}}</td>
+           
+            <td>{{row.ambulanceId}}</td>
+            <td>{{row.type}}</td>
+            <td>{{row.date}}</td>
+            <td>{{row.hiredBy}}</td>
+            <td>{{row.mobile}}</td>
+            <td>{{row.locationFrom}}</td>
+            <td>{{row.locationTo}}</td>  
+            <td>
+                <div class="form-check form-switch">
+                    <input [checked]="checked" class="form-check-input" [(ngModel)]="row.status" name="status_{{row.id}}" type="checkbox" (change)="checkValue($event,row.id)">
+                    <!-- <label *ngIf="!row.status">Pending</label> -->
+                    <!-- <input *ngIf="row.status" class="form-check-input" type="checkbox" (change)="checkValue"  id="flexSwitchCheckChecked"  checked>
+                    <label *ngIf="row.status">Approved</label> -->
+                    
+                   </div>
+            </td>            
+            <td>
+                <div class="btn-group mx-1" role="group">
+                    <button type="button" (click)="onDetails(row)" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                        class="btn btn-sm btn-info">Details</button>
+                    <button type="button" (click)="onEdit(row)" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                        class="btn btn-sm btn-warning">Edit</button>
+                    <button (click)="deleteAmbulanceHire(row)" class="btn btn-sm btn-danger"><i
+                            class="fa fa-remove"></i>Delete</button>
+                </div>
+            </td>
+        </tr>
+
+    </tbody>
+</table>
+
+
+
+<!-- true status table start  -->
+
+
+<table class="table table-bordered table-striped table-responsive">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Ambulance Id</th>
+            <th scope="col">Type</th>
+            <th scope="col">Date</th>
+            <th scope="col">Hired By</th>
+            <th scope="col">mobile</th>
+            <th scope="col">Location From</th>
+            <th scope="col">Location To</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let row of trueStatusHireData | search:searchText  |
+        paginate:{
+        itemsPerPage:tableSize,
+        currentPage:page,
+        totalItems:count
+    } let i = index">
+            <td>{{row.id}}</td>
+           
+            <td>{{row.ambulanceId}}</td>
+            <td>{{row.type}}</td>
+            <td>{{row.date}}</td>
+            <td>{{row.hiredBy}}</td>
+            <td>{{row.mobile}}</td>
+            <td>{{row.locationFrom}}</td>
+            <td>{{row.locationTo}}</td>  
+        </tr>
+
+    </tbody>
+</table>
+
+
+<!-- true status table end -->
+
+
+
+
+
+
+
+
+
+<div>
+    <pagination-controls
+    previousLabel="Prev"
+    nextLabel="Next"
+    (pageChange)="onTableDataChange($event)"
+    >
+
+    </pagination-controls>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Ambulance Hire Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <form [formGroup]="formValue">
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Ambulance Id</label>
+                        <input formControlName="ambulanceId" type="text" class="form-control" id="firstName"
+                            aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Type</label>
+                        <input formControlName="type" type="text" class="form-control" id="lastName">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Date</label>
+                        <input formControlName="date" type="text" class="form-control" id="email">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Hire By</label>
+                        <input formControlName="hiredBy" type="text" class="form-control" id="mobile">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Mobile</label>
+                        <input formControlName="mobile" type="text" class="form-control" id="salary">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Location From</label>
+                        <input formControlName="locationFrom" type="text" class="form-control" id="salary">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Location To</label>
+                        <input formControlName="locationTo" type="text" class="form-control" id="salary">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Status</label>
+                        <input formControlName="status" type="text" class="form-control" id="salary">
+                    </div>
+
+
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="cancel" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button (click)="postAmbulanceHireDetails()" *ngIf="showAdd" type="button" class="btn btn-primary">Save
+                    AmbulanceHire</button>
+                <button (click)="updateAmbulanceHireDetails()" *ngIf="showUpdate" type="button"
+                    class="btn btn-primary">Update AmbulanceHire</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <input type="file" (change)="onChange($event)" /> -->
+
+<!-- <div *ngIf="myimage">
+  <img [src]="myimage" width="200px" height="200px" alt="" />
+  <textarea rows="30" cols="60" [(ngModel)]="base64code"></textarea>
+</div> -->

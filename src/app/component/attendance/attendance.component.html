@@ -1,0 +1,179 @@
+<nav class="navbar navbar-light bg-primary">
+    <div class="container">
+        <h3 style="color: aliceblue;">Attendance Details</h3>
+        <!-- <div class="d-flex">
+            <button (click)="clickAddAttendance()" type="button" class="btn btn-success" data-bs-toggle="modal"
+                data-bs-target="#exampleModal">Add Attendance</button>
+        </div> -->
+    </div>
+</nav>
+
+
+<form style="background-color:rgb(177, 249, 155); width: 700px;align-items: center;" class="mx-auto shadow m-5 p-5" [formGroup]="formValue">
+
+    <div class="row mb-3">
+
+        <div class="m-3 p-3 shadow col-sm-3 ">
+            <label for="exampleInputEmail1" class="form-label">Employee Id</label>
+            <input formControlName="employeeId" type="text" class="form-control" id="firstName"
+                aria-describedby="emailHelp">
+        </div>
+        <div class="m-3 p-3 shadow col-sm-4">
+            <label for="exampleInputPassword1" class="form-label">Employee Name</label>
+            <input formControlName="employeeName" type="text" class="form-control" id="lastName">
+        </div>
+        <div class="p-3 m-3 shadow col-sm-3">
+            <label for="exampleInputPassword1" class="form-label">Shift</label>
+            <input formControlName="shift" type="text" class="form-control" id="email">
+        </div>
+    </div>
+
+    <div class="row text-center">
+        
+        <!-- <div class="m-3 shadow col-sm-3">
+            <label for="exampleInputPassword1" class="form-label">Date</label>
+            <input formControlName="date" type="text" class="form-control" id="mobile">
+        </div> -->
+
+        <div class="m-3 shadow col-sm text-center">
+            <!-- <label for="exampleInputPassword1" class="form-label">Time In</label>{{now  | date:'HH:mm:ss'}} -->
+            <input formControlName="timeIn" [value]="now" type="text" class="form-control" id="salary">
+        </div>
+       
+           
+    </div>
+    <div class="col-md-12 text-center">
+        <button style="margin-right: 25px;" type="button" class=" btn btn-primary">Time In</button>
+        <button style="margin-left: 25px;" type="button" class=" btn btn-warning">Time Out</button>
+    </div>
+<!-- 
+    <div class="row">
+        
+        <div class="m-3 shadow col-sm-3">
+            <label for="exampleInputPassword1" class="form-label">Time Out</label>
+            <input formControlName="timeOut" type="text" class="form-control" id="salary">
+        </div>
+    </div> -->
+
+
+</form>
+
+
+
+
+
+
+
+
+
+
+<div class="shadow p-4 mb-2">
+    <input type="text" class="form-control" placeholder="Search" [(ngModel)]="searchText">
+</div>
+
+<div class="p-3">
+    <select (change)="onTableSizeChange($event)">
+        <option *ngFor="let size of tableSizes">
+            {{size}}
+        </option>
+    </select>
+</div>
+
+<table class="table table-bordered table-striped table-responsive">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Attendance Id</th>
+            <th scope="col">Attendance Name</th>
+            <th scope="col">Shift</th>
+            <th scope="col">Date</th>
+            <th scope="col">Time In</th>
+            <th scope="col">Time Out</th>
+            <th scope="col"> Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let row of attendanceData | search:searchText  |
+        paginate:{
+        itemsPerPage:tableSize,
+        currentPage:page,
+        totalItems:count
+    } let i = index">
+            <td>{{row.id}}</td>
+            <td>{{row.employeeId}}</td>
+            <td>{{row.employeeName}}</td>
+            <td>{{row.shift}}</td>
+            <td>{{row.date}}</td>
+            <td>{{row.timeIn}}</td>
+            <td>{{row.timeOut}}</td>
+            <td>
+                <div class="btn-group mx-1" role="group">
+                    <button type="button" (click)="onDetails(row)" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                        class="btn btn-sm btn-info">Details</button>
+                    <button type="button" (click)="onEdit(row)" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                        class="btn btn-sm btn-warning">Edit</button>
+                    <button (click)="deleteAttendance(row)" class="btn btn-sm btn-danger"><i
+                            class="fa fa-remove"></i>Delete</button>
+                </div>
+            </td>
+        </tr>
+
+    </tbody>
+</table>
+<div>
+    <pagination-controls previousLabel="Prev" nextLabel="Next" (pageChange)="onTableDataChange($event)">
+
+    </pagination-controls>
+</div>
+
+<!-- Modal -->
+<!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Attendence  Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <form [formGroup]="formValue">
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Employee Id</label>
+                        <input formControlName="employeeId" type="text" class="form-control" id="firstName"
+                            aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Employee Name</label>
+                        <input formControlName="employeeName" type="text" class="form-control" id="lastName">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Shift</label>
+                        <input formControlName="shift" type="text" class="form-control" id="email">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Date</label>
+                        <input formControlName="date" type="text" class="form-control" id="mobile">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Time In</label>
+                        <input formControlName="timeIn" type="text" class="form-control" id="salary">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Time Out</label>
+                        <input formControlName="timeOut" type="text" class="form-control" id="salary">
+                    </div>
+
+
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="cancel" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button (click)="postAttendanceDetails()" *ngIf="showAdd" type="button" class="btn btn-primary">Save
+                    Attendance</button>
+                <button (click)="updateAttendanceDetails()" *ngIf="showUpdate" type="button"
+                    class="btn btn-primary">Update Attendance</button>
+            </div>
+        </div>
+    </div>
+</div> -->

@@ -1,0 +1,64 @@
+<nav class="navbar navbar-light bg-primary">
+    <div class="container">
+        <h3 style="color: aliceblue;">Appointment Details</h3>
+       
+    </div>
+</nav>
+<div class="shadow p-4 mb-2">
+    <input type="text" class="form-control" placeholder="Search" [(ngModel)]="searchText">
+</div>
+
+<div class="p-3">
+    <select (change)="onTableSizeChange($event)">
+        <option *ngFor="let size of tableSizes">
+            {{size}}
+        </option>
+    </select>
+</div>
+
+<table class="table table-bordered table-striped table-responsive">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Patient Id</th>
+            <th scope="col">Patient Name</th>
+            <th scope="col">Department Name</th>
+            <th scope="col">Doctor Name</th>
+            <th scope="col">Appointment Date</th>
+            <th scope="col">Serial No</th>
+            <th scope="col">Problem</th>
+           
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let row of trueStatusData | search:searchText  |
+        paginate:{
+        itemsPerPage:tableSize,
+        currentPage:page,
+        totalItems:count
+    } let i = index">
+            <td>{{row.id}}</td>
+            <td>{{row.patientId}}</td>
+            <td>{{row.patientName}}</td>
+            <td>{{row.department.departmentName}}</td>
+            <td>{{row.doctor.name}}</td>
+            <td>{{row.appointmentDate}}</td>
+            <td>{{row.serialNo}}</td>
+            <td>{{row.problem}}</td>
+           
+        </tr>
+
+    </tbody>
+</table>
+
+<div>
+    <pagination-controls
+    previousLabel="Prev"
+    nextLabel="Next"
+    (pageChange)="onTableDataChange($event)"
+    >
+
+    </pagination-controls>
+</div>
+
+

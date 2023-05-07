@@ -1,0 +1,116 @@
+<nav class="navbar navbar-light bg-primary">
+    <div class="container">
+        <h3 style="color: aliceblue;">Mail Details</h3>
+        <div class="d-flex">
+            <button (click)="clickAddEmail()" type="button" class="btn btn-success" data-bs-toggle="modal"
+                data-bs-target="#exampleModal">Add Email</button>
+        </div>
+    </div>
+  </nav>
+  <div class="shadow p-4 mb-2">
+    <input type="text" class="form-control" placeholder="Search" [(ngModel)]="searchText">
+  </div>
+  
+  <div class="p-3">
+    <select (change)="onTableSizeChange($event)">
+        <option *ngFor="let size of tableSizes">
+            {{size}}
+        </option>
+    </select>
+  </div>
+  
+  <table class="table table-bordered table-striped table-responsive">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Send To</th>
+            <th scope="col">Subject</th>
+            <th scope="col">Message</th>
+            <!-- <th scope="col">File</th> -->
+            <th scope="col"> Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let row of emailData | search:searchText  |
+        paginate:{
+        itemsPerPage:tableSize,
+        currentPage:page,
+        totalItems:count
+    } let i = index">
+            <td>{{row.id}}</td>
+            <td>{{row.to}}</td>
+            <td>{{row.subject}}</td>
+            <td>{{row.message}}</td>
+            <!-- <td>{{row.file}}</td> -->
+            <td>
+                <div class="btn-group mx-1" role="group">
+                    <button type="button" (click)="onDetails(row)" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                        class="btn btn-sm btn-info">Details</button>
+                    <button type="button" (click)="onEdit(row)" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                        class="btn btn-sm btn-warning">Edit</button>
+                    <button (click)="deleteEmail(row)" class="btn btn-sm btn-danger"><i
+                            class="fa fa-remove"></i>Delete</button>
+                </div>
+            </td>
+        </tr>
+  
+    </tbody>
+  </table>
+  <div>
+    <pagination-controls
+    previousLabel="Prev"
+    nextLabel="Next"
+    (pageChange)="onTableDataChange($event)"
+    >
+  
+    </pagination-controls>
+  </div>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Mail Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+  
+                <form [formGroup]="formValue">
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Send To</label>
+                        <input formControlName="to" type="text" class="form-control" id="firstName"
+                            aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Subject</label>
+                        <input formControlName="subject" type="text" class="form-control" id="lastName">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Message</label>
+                        <input formControlName="message" type="email" class="form-control" id="email">
+                    </div>
+                    <!-- <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">File</label>
+                        <input formControlName="file" type="text" class="form-control" id="mobile">
+                    </div> -->
+  
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="cancel" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button (click)="postEmailDetails()" *ngIf="showAdd" type="button" class="btn btn-primary">Save
+                    Email</button>
+                <button (click)="updateEmailDetails()" *ngIf="showUpdate" type="button"
+                    class="btn btn-primary">Update Email</button>
+            </div>
+        </div>
+    </div>
+  </div>
+  
+  <!-- <input type="file" (change)="onChange($event)" /> -->
+  
+  <!-- <div *ngIf="myimage">
+  <img [src]="myimage" width="200px" height="200px" alt="" />
+  <textarea rows="30" cols="60" [(ngModel)]="base64code"></textarea>
+  </div> -->

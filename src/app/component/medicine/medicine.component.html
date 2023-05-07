@@ -1,0 +1,149 @@
+<nav class="navbar navbar-light bg-primary">
+    <div class="container">
+        <h3 style="color: aliceblue;">Medicine Details</h3>
+        <div class="d-flex">
+            <button (click)="clickAddMedicine()" type="button" class="btn btn-success" data-bs-toggle="modal"
+                data-bs-target="#exampleModal">Add Medicine</button>
+        </div>
+    </div>
+  </nav>
+  <div class="shadow p-4 mb-2">
+    <input type="text" class="form-control" placeholder="Search" [(ngModel)]="searchText">
+  </div>
+  
+  <div class="p-3">
+    <select (change)="onTableSizeChange($event)">
+        <option *ngFor="let size of tableSizes">
+            {{size}}
+        </option>
+    </select>
+  </div>
+  
+  <table class="table table-bordered table-striped table-responsive">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Medicine Id</th>
+            <th scope="col">Name</th>
+            <th scope="col">Category</th>
+            <th scope="col">MFG Date</th>
+            <th scope="col">Exp Date</th>
+            <th scope="col">Batch No</th>
+            <th scope="col">Company Name</th>
+            <th scope="col">Purchase Date</th>
+            <th scope="col">Purchase Rate</th>
+            <th scope="col">Selling Rate</th>
+            <th scope="col"> Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let row of medicineData | search:searchText  |
+        paginate:{
+        itemsPerPage:tableSize,
+        currentPage:page,
+        totalItems:count
+    } let i = index">
+            <td>{{row.id}}</td>
+            <td>{{row.medicineId}}</td>
+            <td>{{row.name}}</td>
+            <td>{{row.category}}</td>
+            <td>{{row.mfgDate}}</td>
+            <td>{{row.expDate}}</td>
+            <td>{{row.batchNo}}</td>
+            <td>{{row.companyName}}</td>
+            <td>{{row.purchaseDate}}</td>
+            <td>{{row.purchaseRate}}</td>
+            <td>{{row.sellingRate}}</td>
+            
+            <td>
+                <div class="btn-group mx-1" role="group">
+                    <button type="button" (click)="onDetails(row)" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                        class="btn btn-sm btn-info">Details</button>
+                    <button type="button" (click)="onEdit(row)" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                        class="btn btn-sm btn-warning">Edit</button>
+                    <button (click)="deleteMedicine(row)" class="btn btn-sm btn-danger"><i
+                            class="fa fa-remove"></i>Delete</button>
+                </div>
+            </td>
+        </tr>
+  
+    </tbody>
+  </table>
+  <div>
+    <pagination-controls
+    previousLabel="Prev"
+    nextLabel="Next"
+    (pageChange)="onTableDataChange($event)"
+    >
+  
+    </pagination-controls>
+  </div>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Medicine Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+  
+                <form [formGroup]="formValue">
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Medicine Id</label>
+                        <input formControlName="medicineId" type="text" class="form-control" id="firstName"
+                            aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Name</label>
+                        <input formControlName="name" type="text" class="form-control" id="lastName">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Category</label>
+                        <input formControlName="category" type="text" class="form-control" id="email">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Mfg Date</label>
+                        <input formControlName="mfgDate" type="text" class="form-control" id="mobile">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Exp Date</label>
+                        <input formControlName="expDate" type="text" class="form-control" id="salary">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Company Name</label>
+                        <input formControlName="companyName" type="text" class="form-control" id="salary">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Purchase Date</label>
+                        <input formControlName="purchaseDate" type="text" class="form-control" id="salary">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Purchase Rate</label>
+                        <input formControlName="purchaseRate" type="text" class="form-control" id="salary">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Selling Rate</label>
+                        <input formControlName="sellingRate" type="text" class="form-control" id="salary">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="cancel" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button (click)="postMedicineDetails()" *ngIf="showAdd" type="button" class="btn btn-primary">Save
+                    Medicine</button>
+                <button (click)="updateMedicineDetails()" *ngIf="showUpdate" type="button"
+                    class="btn btn-primary">Update Medicine</button>
+            </div>
+        </div>
+    </div>
+  </div>
+  
+  <!-- <input type="file" (change)="onChange($event)" /> -->
+  
+  <!-- <div *ngIf="myimage">
+  <img [src]="myimage" width="200px" height="200px" alt="" />
+  <textarea rows="30" cols="60" [(ngModel)]="base64code"></textarea>
+  </div> -->
